@@ -35,7 +35,8 @@ var random_message = function(){
 var generate_random_tweet = function(){
   add_tweet({
     user: random(users),
-    message: random_message()
+    message: random_message(),
+    created_at: new Date()
   })
   setTimeout(generate_random_tweet, Math.random() * 1000);
 }
