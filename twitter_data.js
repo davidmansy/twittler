@@ -38,7 +38,7 @@ var generate_random_tweet = function(){
     message: random_message(),
     created_at: new Date()
   })
-  setTimeout(generate_random_tweet, Math.random() * 1000);
+  setTimeout(generate_random_tweet, Math.random() * 1500);
 }
 setTimeout(generate_random_tweet, 0);
 

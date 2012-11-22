@@ -3,8 +3,8 @@ window.draw = function(){
   body.html("")
   for(var i = window.streams.home.length - 1; i >= 0; i-- ){
     tweet = window.streams.home[i]
-    console.log(tweet)
+    console.log(tweet);
     body.append(tweet.user + ": " + tweet.message + "<br>");
   }
 }
-setTimeout(draw, 2000)
+setTimeout(draw, 2000);
