@@ -1,4 +1,4 @@
-window.draw = function(){
+var draw = function(){
   var body = $("body");
   body.html("")
   for(var i = window.streams.home.length - 1; i >= 0; i-- ){
