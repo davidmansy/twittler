@@ -12,7 +12,7 @@ window.users = Object.keys(streams.users);
 
 // utility function for adding tweets to our data structures
 var add_tweet = function(new_tweet){
-  console.log(new_tweet)
+  // console.log(new_tweet)
   streams.users[new_tweet.user].push(new_tweet);
   streams.home.push(new_tweet);
 };
