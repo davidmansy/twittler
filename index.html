@@ -4,8 +4,21 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="twitter_data.js"></script>
-    <script type="text/javascript" src="twitter_ui.js"></script>
   </head>
   <body>
+    <script>
+      setInterval(function(){
+        var $body = $('body');
+        $body['html']('');
+        var index = streams['home']['length'] - 1;
+        while(index >= 0){
+          var tweet = streams['home'][index];
+          console['log']('rendering a tweet:', tweet);
+          var html = tweet['user'] + ': ' + tweet['message'] + '<br/>';
+          $body['html'](html);
+          index = index - 1;
+        }
+      }, 2000);
+    </script>
   </body>
 </html>
