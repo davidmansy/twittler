@@ -8,16 +8,21 @@
   <body>
     <script>
       setInterval(function(){
+
         var $body = $('body');
         $body['html']('');
+        var allhtml = "";
+
         var index = streams['home']['length'] - 1;
         while(index >= 0){
           var tweet = streams['home'][index];
           console['log']('rendering a tweet:', tweet);
           var html = tweet['user'] + ': ' + tweet['message'] + '<br/>';
-          $body['html'](html);
+          allhtml += html;
           index = index - 1;
         }
+        $body['html'](allhtml);
+
       }, 2000);
     </script>
   </body>
