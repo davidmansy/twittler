@@ -7,7 +7,8 @@
   </head>
   <body>
     <script>
-      setInterval(function(){
+
+      $(document)['ready'](function(){
 
         var $body = $('body');
         $body['html']('');
@@ -23,7 +24,8 @@
         }
         $body['html'](allhtml);
 
-      }, 2000);
+      });
+
     </script>
   </body>
 </html>

@@ -36,9 +36,17 @@ var generateRandomTweet = function(){
   tweet['message'] = randomMessage();
   tweet['created_at'] = new Date();
   addTweet(tweet);
-  setTimeout(generateRandomTweet, Math['random']() * 1500);
 };
-setTimeout(generateRandomTweet, 0);
+
+for(var i = 0; i < 10; i++){
+  generateRandomTweet();
+}
+
+var scheduleNextTweet = function(){
+  generateRandomTweet();
+  setTimeout(scheduleNextTweet, Math['random']() * 1500);
+};
+scheduleNextTweet();
 
 // utility function for letting students add "write a tweet" functionality
 // (note: not used by the rest of this file.)
