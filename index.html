@@ -3,26 +3,23 @@
   <head>
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="twitter_data.js"></script>
+    <script type="text/javascript" src="data_generator.js"></script>
   </head>
   <body>
     <script>
 
-      $(document)['ready'](function(){
-
+      $(document).ready(function(){
         var $body = $('body');
-        $body['html']('');
-        var allhtml = "";
+        $body.html('');
 
-        var index = streams['home']['length'] - 1;
+        var index = streams.home.length - 1;
         while(index >= 0){
-          var tweet = streams['home'][index];
-          console['log']('rendering a tweet:', tweet);
-          var html = tweet['user'] + ': ' + tweet['message'] + '<br/>';
-          allhtml += html;
-          index = index - 1;
+          var tweet = streams.home[index];
+          var $tweet = $('<div></div>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          $tweet.appendTo($body);
+          index -= 1;
         }
-        $body['html'](allhtml);
 
       });
 
