@@ -5,20 +5,38 @@
     <script src="data_generator.js"></script>
   </head>
   <body>
+    <div class="tweets"></div>
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
 
+        var $tweets = $('.tweets');
+
+        //Create the first 10 tweets
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ', created at: ' + tweet.created_at);
+          $tweet.appendTo($tweets);
           index -= 1;
         }
+
+        //Refresh automatically the list of tweets every 2 sec
+        setInterval(function() {
+          console.log(streams.home[streams.home.length - 1]);
+          console.log(streams.home.length -1);
+
+          var $tweet = $tweets.find('div').first();
+          var index = streams.home.length - 1;
+          while(index >= 0){
+            var tweet = streams.home[index];
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ', created at: ' + tweet.created_at);
+            $tweet = $tweet.next();
+            index -= 1;
+          }
+
+        }, 2000);
 
       });
 
