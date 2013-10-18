@@ -7,10 +7,13 @@
   <body>
     <div class="main-user">
       <h4 class="username"></h4>
+      <!-- Add here a field to post new tweets -->
     </div>
-    <div class="users-list">
+    <div class="following">
+      <h4>Following</h4>
     </div>
     <div class="tweets">
+      <h4>Tweets</h4>
       <button>Get new tweets<span class="counter"> (0)</span></button>
       <div class="tweets-list"></div>
     </div>
@@ -49,7 +52,12 @@
         var name = prompt("What's your name?");
         $('.username').text(name);
 
-        //Create the first 10 tweets just after page loading
+        //Display the list of users I follow
+        for (var prop in streams.users) {
+          $('.following').append('<div>' + prop + '</div>');
+        }
+
+        //Display the first 10 tweets just after page loading
         var index = streams.home.length - 1;
         tweetLastIndex = index;
         while(index >= 0){
@@ -65,7 +73,6 @@
         setInterval(function() {
           refreshCounter(tweetLastIndex);
         }, 2000);
-
 
         //Refresh the list of tweets if the button is clicked
         $('.tweets').on('click', 'button', refreshTweets);
