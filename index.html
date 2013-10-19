@@ -3,6 +3,8 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
   </head>
   <body>
     <div class="main-user">
@@ -11,11 +13,12 @@
     </div>
     <div class="following">
       <h4>Following</h4>
+      <ul class="users-list"></ul>
     </div>
     <div class="tweets">
-      <h4>Tweets</h4>
+      <h4>All tweets</h4>
       <button>Get new tweets<span class="counter"> (0)</span></button>
-      <div class="tweets-list"></div>
+      <ul class="tweets-list"></ul>
     </div>
     <script>
 
@@ -35,7 +38,7 @@
 
         //Function refreshing the list of tweets
         var refreshTweets = function() {
-          var $tweet = $tweets.find('div').first();
+          var $tweet = $tweets.find('li').first();
           var index = streams.home.length - 1;
           tweetLastIndex = index;
           while(index >= 0){
@@ -53,8 +56,9 @@
         $('.username').text(name);
 
         //Display the list of users I follow
+        $('.users-list').append('<li class="highlight"><a href="#">All users</a></li>');
         for (var prop in streams.users) {
-          $('.following').append('<div>' + prop + '</div>');
+          $('.users-list').append('<li><a href="#">' + prop + '</a></li>');
         }
 
         //Display the first 10 tweets just after page loading
@@ -62,7 +66,7 @@
         tweetLastIndex = index;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
+          var $tweet = $('<li></li>');
           $tweet.text('@' + tweet.user + ': ' + tweet.message + ', created at: ' + tweet.created_at);
           $tweet.appendTo($tweets);
           index -= 1;
@@ -76,6 +80,13 @@
 
         //Refresh the list of tweets if the button is clicked
         $('.tweets').on('click', 'button', refreshTweets);
+
+        //Fiter the list of tweets if a user is clicked
+        $('.users-list').on('click', 'li', function(event) {
+          event.preventDefault();
+          $(this).closest('.users-list').find('li').removeClass('highlight');
+          $(this).addClass('highlight');
+        });
 
 
       });
