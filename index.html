@@ -66,7 +66,7 @@
         //Display the list of users I follow
         $('.users-list').append('<li class="highlight"><a href="#">All users</a></li>');
         for (var i = 0; i < users.length; i++) {
-          $('.users-list').append('<li><a href="#">' + users[i] + '</a></li>');
+          $('.users-list').append('<li><a href="#">@' + users[i] + '</a></li>');
         }
 
         //Display the first 10 tweets just after page loading
@@ -97,9 +97,15 @@
           //Highlight the selected user/unhighlight the other users
           $(this).closest('.users-list').find('li').removeClass('highlight');
           $(this).addClass('highlight');
+
           var $user = $(this).find('a').text();
+          if ($user.charAt(0) === '@') {
+            $user = $user.slice(1);
+          }
+
           //Update the list of tweets titel
           $('.tweets').find('h4').text($user + '\'s tweets');
+
           //Display tweets from the selected user only
           if($user != 'All users') {
             dataTweets = streams.users[$user]
