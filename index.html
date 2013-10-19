@@ -23,15 +23,11 @@
     <script>
 
       $(document).ready(function(){
-
-        //Index of the last tweet displayed
-        var tweetLastIndex = 0;
-
-        //Array of tweets being selected (all tweets or one user's tweets). Initialize as all tweets
-        var dataTweets = streams.home;
-
-        //Access to the list of tweets placeholder
-        var $tweets = $('.tweets-list');
+        
+        var tweetLastIndex = 0;  //Index of the last tweet displayed
+        var dataTweets = streams.home;  //Array of tweets being selected (all tweets or one user's tweets). Initialize as all tweets
+        var numDisplayedTweets = 10; //Default number of tweets displayed by the app
+        var $tweets = $('.tweets-list');  //Access to the list of tweets placeholder
 
         //Function refreshing the counter i.e. the number of new tweets not displayed
         var refreshCounter = function(tweets, tweetLastIndex) {
@@ -39,16 +35,39 @@
           $('.counter').text(' (' + counterNum + ')');          
         }
 
+        //Take a tweet and return a formatted string
         var formatTweet = function(tweet) {
           return '@' + tweet.user + ': ' + tweet.message + ', created at: ' + tweet.created_at
+        }
+
+        //Adjust the number of li tags to the number of tweets
+        var adjustDisplayedList = function(dataLength, dispLength) {
+          console.log('Nb of tweets: ' + dataLength + ', Nb of li: ' + dispLength);
+          if (dataLength < dispLength) {
+            var li = $tweets.find('li').last().prev();
+            while(dataLength < dispLength) {
+              li.next().remove();
+              li = li.prev();
+              dispLength--;
+            }
+          } else if (dataLength > dispLength) {
+            while (dataLength > dispLength && dispLength < numDisplayedTweets) {
+              var $tweet = $('<li></li>');
+              $tweet.appendTo($tweets);              
+              dispLength++;
+            }
+          }
         }
 
         //Function refreshing the list of tweets based on the received tweets
         var refreshTweets = function(tweets) {
 
+          adjustDisplayedList(tweets.length, $tweets.find('li').length);
+
           var $tweet = $tweets.find('li').first();
           var index = tweets.length - 1;
           tweetLastIndex = index;
+
           while(index >= 0){
             var tweet = tweets[index];
             $tweet.text(formatTweet(tweet));
@@ -69,16 +88,8 @@
           $('.users-list').append('<li><a href="#">@' + users[i] + '</a></li>');
         }
 
-        //Display the first 10 tweets just after page loading
-        var index = dataTweets.length - 1;
-        tweetLastIndex = index;
-        while(index >= 0){
-          var tweet = dataTweets[index];
-          var $tweet = $('<li></li>');
-          $tweet.text(formatTweet(tweet));
-          $tweet.appendTo($tweets);
-          index -= 1;
-        }
+        //Build and fill the initial list of tweets
+        refreshTweets(dataTweets);          
 
         //PAGE EVENTS
         //Refresh the new tweets counter every 2 sec
@@ -91,13 +102,14 @@
           refreshTweets(dataTweets);
         });
 
-        //Fiter the list of tweets if a user is clicked
+        //Fiter the list of tweets if a user is selected
         $('.users-list').on('click', 'li', function(event) {
           event.preventDefault();
           //Highlight the selected user/unhighlight the other users
           $(this).closest('.users-list').find('li').removeClass('highlight');
           $(this).addClass('highlight');
 
+          //Remove the '@' if it a specific user is selected
           var $user = $(this).find('a').text();
           if ($user.charAt(0) === '@') {
             $user = $user.slice(1);
@@ -106,7 +118,7 @@
           //Update the list of tweets titel
           $('.tweets').find('h4').text($user + '\'s tweets');
 
-          //Display tweets from the selected user only
+          //Display tweets from all or from the selected user only
           if($user != 'All users') {
             dataTweets = streams.users[$user]
           } else {
