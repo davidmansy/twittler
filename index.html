@@ -16,7 +16,7 @@
       <ul class="users-list"></ul>
     </div>
     <div class="tweets">
-      <h4>All tweets</h4>
+      <h4>All users's tweets</h4>
       <button>Get new tweets<span class="counter"> (0)</span></button>
       <ul class="tweets-list"></ul>
     </div>
@@ -27,47 +27,55 @@
         //Index of the last tweet displayed
         var tweetLastIndex = 0;
 
-        //Acces to the list of tweets placeholder
+        //Array of tweets being selected (all tweets or one user's tweets). Initialize as all tweets
+        var dataTweets = streams.home;
+
+        //Access to the list of tweets placeholder
         var $tweets = $('.tweets-list');
 
         //Function refreshing the counter i.e. the number of new tweets not displayed
-        var refreshCounter = function(tweetLastIndex) {
-          var counterNum = streams.home.length - 1 - tweetLastIndex;
+        var refreshCounter = function(tweets, tweetLastIndex) {
+          var counterNum = tweets.length - 1 - tweetLastIndex;
           $('.counter').text(' (' + counterNum + ')');          
         }
 
-        //Function refreshing the list of tweets
-        var refreshTweets = function() {
+        var formatTweet = function(tweet) {
+          return '@' + tweet.user + ': ' + tweet.message + ', created at: ' + tweet.created_at
+        }
+
+        //Function refreshing the list of tweets based on the received tweets
+        var refreshTweets = function(tweets) {
+
           var $tweet = $tweets.find('li').first();
-          var index = streams.home.length - 1;
+          var index = tweets.length - 1;
           tweetLastIndex = index;
           while(index >= 0){
-            var tweet = streams.home[index];
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + ', created at: ' + tweet.created_at);
+            var tweet = tweets[index];
+            $tweet.text(formatTweet(tweet));
             $tweet = $tweet.next();
-            index -= 1;          
+            index -= 1;    
           }
-          refreshCounter(tweetLastIndex);
+          refreshCounter(tweets, tweetLastIndex);
         }
 
         //INITIALIZATION
         //Display username
         var name = prompt("What's your name?");
-        $('.username').text(name);
+        $('.username').text('@'+name);
 
         //Display the list of users I follow
         $('.users-list').append('<li class="highlight"><a href="#">All users</a></li>');
-        for (var prop in streams.users) {
-          $('.users-list').append('<li><a href="#">' + prop + '</a></li>');
+        for (var i = 0; i < users.length; i++) {
+          $('.users-list').append('<li><a href="#">' + users[i] + '</a></li>');
         }
 
         //Display the first 10 tweets just after page loading
-        var index = streams.home.length - 1;
+        var index = dataTweets.length - 1;
         tweetLastIndex = index;
         while(index >= 0){
-          var tweet = streams.home[index];
+          var tweet = dataTweets[index];
           var $tweet = $('<li></li>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + ', created at: ' + tweet.created_at);
+          $tweet.text(formatTweet(tweet));
           $tweet.appendTo($tweets);
           index -= 1;
         }
@@ -75,17 +83,30 @@
         //PAGE EVENTS
         //Refresh the new tweets counter every 2 sec
         setInterval(function() {
-          refreshCounter(tweetLastIndex);
+          refreshCounter(dataTweets, tweetLastIndex);
         }, 2000);
 
         //Refresh the list of tweets if the button is clicked
-        $('.tweets').on('click', 'button', refreshTweets);
+        $('.tweets').on('click', 'button', function() {
+          refreshTweets(dataTweets);
+        });
 
         //Fiter the list of tweets if a user is clicked
         $('.users-list').on('click', 'li', function(event) {
           event.preventDefault();
+          //Highlight the selected user/unhighlight the other users
           $(this).closest('.users-list').find('li').removeClass('highlight');
           $(this).addClass('highlight');
+          var $user = $(this).find('a').text();
+          //Update the list of tweets titel
+          $('.tweets').find('h4').text($user + '\'s tweets');
+          //Display tweets from the selected user only
+          if($user != 'All users') {
+            dataTweets = streams.users[$user]
+          } else {
+            dataTweets = streams.home;
+          }
+          refreshTweets(dataTweets);
         });
 
 
