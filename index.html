@@ -7,16 +7,19 @@
 
   </head>
   <body>
-    <div class="main-user">
-      <h4 class="username"></h4>
-      <!-- Add here a field to post new tweets -->
-    </div>
-    <div class="following">
-      <h4>Following</h4>
-      <ul class="users-list"></ul>
+    <div class="left-part">
+      <div class="main-user">
+        <p class="username"></p>
+        <!-- Add here a field to post new tweets -->
+        <input type="text" />
+      </div>
+      <div class="following">
+        <p>Following</p>
+        <ul class="users-list"></ul>
+      </div>
     </div>
     <div class="tweets">
-      <h4>All users's tweets</h4>
+      <h1 class="selected-user">All users's tweets</h1>
       <button>Get new tweets<span class="counter"> (0)</span></button>
       <ul class="tweets-list"></ul>
     </div>
@@ -116,7 +119,7 @@
           }
 
           //Update the list of tweets titel
-          $('.tweets').find('h4').text($user + '\'s tweets');
+          $('.selected-user').text($user + '\'s tweets');
 
           //Display tweets from all or from the selected user only
           if($user != 'All users') {

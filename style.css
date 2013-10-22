@@ -1,3 +1,51 @@
+body {
+	font-family: "Helvetica Neue",Arial,sans-serif;
+	color: #665544;
+	line-height: 1.5em;
+	background-color: #C0DEED;
+}
+
+li {
+}
+
+a {
+	text-decoration: none;
+	color: #665544;
+}
+
+a:hover {
+	background-color: green;
+}
+
+.main-user, .following, .tweets {
+	border: 1px solid #665544;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	background-color: #efefef;
+	padding: 10px;
+	margin: 10px;	
+}
+
+.left-part {
+	display: inline-block;
+}
+
+.main-user, .following {
+	width: 250px;
+	max-width: 250px;
+	min-width: 250px;
+	overflow: hidden;
+}
+
+.tweets {
+	display: inline-block;
+	width: 600px;
+	max-width: 600px;
+	min-width: 400px;
+	margin: 10px;
+}
+
 .highlight {
 	background-color: red;
 }
