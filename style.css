@@ -25,17 +25,18 @@ a:hover {
 	background-color: #efefef;
 	padding: 10px;
 	margin: 10px;	
-}
-
-.left-part {
-	display: inline-block;
+	overflow: hidden;
 }
 
 .main-user, .following {
 	width: 250px;
 	max-width: 250px;
-	min-width: 250px;
-	overflow: hidden;
+	min-width: 200px;
+}
+
+.left-part {
+	display: inline-block;
+	vertical-align: top;
 }
 
 .tweets {
@@ -43,7 +44,6 @@ a:hover {
 	width: 600px;
 	max-width: 600px;
 	min-width: 400px;
-	margin: 10px;
 }
 
 .highlight {
