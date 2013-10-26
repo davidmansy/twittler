@@ -7,21 +7,23 @@
 
   </head>
   <body>
-    <div class="left-part">
-      <div class="main-user">
-        <p class="username"></p>
-        <!-- Add here a field to post new tweets -->
-        <input type="text" />
+    <div class="page-container">
+      <div class="left-part">
+        <div class="main-user">
+          <p class="username"></p>
+          <!-- Add here a field to post new tweets -->
+          <input type="text" />
+        </div>
+        <div class="following">
+          <p>Following</p>
+          <ul class="users-list"></ul>
+        </div>
       </div>
-      <div class="following">
-        <p>Following</p>
-        <ul class="users-list"></ul>
+      <div class="tweets">
+        <h1 class="selected-user">All users tweets</h1>
+        <button>Get new tweets<span class="counter"> (0)</span></button>
+        <ul class="tweets-list"></ul>
       </div>
-    </div>
-    <div class="tweets">
-      <h1 class="selected-user">All users's tweets</h1>
-      <button>Get new tweets<span class="counter"> (0)</span></button>
-      <ul class="tweets-list"></ul>
     </div>
     <script>
 
@@ -29,7 +31,7 @@
         
         var tweetLastIndex = 0;  //Index of the last tweet displayed
         var dataTweets = streams.home;  //Array of tweets being selected (all tweets or one user's tweets). Initialize as all tweets
-        var numDisplayedTweets = 10; //Default number of tweets displayed by the app
+        var numDisplayedTweets = 40; //Default number of tweets displayed by the app
         var $tweets = $('.tweets-list');  //Access to the list of tweets placeholder
 
         //Function refreshing the counter i.e. the number of new tweets not displayed
@@ -112,14 +114,18 @@
           $(this).closest('.users-list').find('li').removeClass('highlight');
           $(this).addClass('highlight');
 
-          //Remove the '@' if it a specific user is selected
           var $user = $(this).find('a').text();
-          if ($user.charAt(0) === '@') {
-            $user = $user.slice(1);
-          }
 
-          //Update the list of tweets titel
-          $('.selected-user').text($user + '\'s tweets');
+          //If a specific user
+          if ($user.charAt(0) === '@') {
+            //Update the titel
+            $('.selected-user').text($user + '\'s tweets');
+            //Remove the '@' we don't use it in
+            $user = $user.slice(1);
+          } else {
+            //Update the titel
+            $('.selected-user').text($user + ' tweets');
+          }
 
           //Display tweets from all or from the selected user only
           if($user != 'All users') {
