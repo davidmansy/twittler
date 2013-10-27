@@ -14,12 +14,34 @@ body {
 	margin: 0px;
 }
 
+h2 {
+	font-size: 18px;
+	font-weight: bold;
+	margin: 0px;
+	padding: 8px 10px 8px 10px;
+}
+
+p {
+	margin: 0px;
+}
+
+input {
+	margin: 0px 10px 8px 10px;
+
+}
+
+ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;	
+}
+
 .main-user, .following, .tweets {
 	border: 1px solid rgba(0,0,0,.1);
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	background-color: #f9f9f9;
+
 	overflow: hidden;
 }
 
@@ -31,49 +53,35 @@ body {
 	background: url(https://abs.twimg.com/a/1382598364/t1/img/wash-white-30.png);
 }
 
+/* Left */
 .left-part {
 	display: inline-block;
 	vertical-align: top;
+	width: 220px;
 }
 
 .main-user {
-	width: 200px;
 	margin-bottom: 10px;	
-	padding: 10px;
+	background-color: #f9f9f9;
 }
 
 .following {
-	width: 220px;
+	background-color: #f9f9f9;
 }
 
+/* Right */
 .tweets {
 	display: inline-block;
-	width: 600px;
+	width: 620px;
 	margin-left: 5px;
-	padding: 10px;
+	background-color: #fff;
 }
 
-p {
-	margin: 0px;
-}
-
-.following p {
-	margin-left: 10px;
-}
-
-
-ul {
-	list-style-type: none;
-	margin: 0px;
-	padding: 0px;	
-}
 
 /* DESIGN LIST OF USERS */
-
-/* Default design of a user*/
-a {
+/* User default design*/
+.users-list a {
 	display: block;
-	width: 220px;
 	border-top: 1px solid #e8e8e8;
 	padding: 8px 12px 8px 12px;
 
@@ -81,21 +89,44 @@ a {
 	color: #C0DCF1;
 }
 
-/* Design of a user when you mouse over it */
-a:hover {
+/* User design when you mouse over it */
+.users-list a:hover {
 	background-color: #fff;
 	color: #333;
 }
 
-/* Design when a user is selected */
-.highlight {
+/* User design when selected */
+.users-list a.selected {
 	background-color: #fff;
+	color: #333;
 	font-weight: bold;
 }
 
-.highlight a {
-	color: #333;
+
+/* DESIGN LIST OF TWEETS */
+/* Design of the new tweets zone */ 
+.get-new-tweets.hidden {
+	display: none;
 }
 
+.get-new-tweets {
+	display: block;
+	background-color: #f9f9f9;
+	color: #C0DCF1;
+	text-align: center;
+	border-top: 1px solid #e8e8e8;
+	padding: 8px 12px 8px 12px;
+	text-decoration: none;
+	cursor: pointer;
+}
 
+.get-new-tweets:hover {
+	background-color: #f7f2f2;
+}
 
+/*Design of a tweet */
+.tweets-list li {
+	border-top: 1px solid #e8e8e8;
+	padding: 8px 12px 8px 12px;
+	color: #333;
+}

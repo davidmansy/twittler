@@ -10,18 +10,18 @@
     <div class="page-container">
       <div class="left-part">
         <div class="main-user">
-          <p class="username"></p>
+          <h2 class="username"></h2>
           <!-- Add here a field to post new tweets -->
-          <input type="text" />
+          <input type="text" name="new-tweet" maxlength="140" />
         </div>
         <div class="following">
-          <p>Following</p>
+          <h2>Following</h2>
           <ul class="users-list"></ul>
         </div>
       </div>
       <div class="tweets">
-        <h1 class="selected-user">All users tweets</h1>
-        <button>Get new tweets<span class="counter"> (0)</span></button>
+        <h2 class="selected-user">All users tweets</h2>
+        <a class="get-new-tweets hidden"><span class="counter">0</span> new tweets</a>
         <ul class="tweets-list"></ul>
       </div>
     </div>
@@ -36,8 +36,13 @@
 
         //Function refreshing the counter i.e. the number of new tweets not displayed
         var refreshCounter = function(tweets, tweetLastIndex) {
+          var oldCounter = +$('.counter').text();
           var counterNum = tweets.length - 1 - tweetLastIndex;
-          $('.counter').text(' (' + counterNum + ')');          
+          $('.counter').text(counterNum);
+          //Display/remove the counter zone if counter > 0 or not
+          if (oldCounter === 0 && counterNum > 0 || oldCounter > 0 && counterNum === 0) {
+            $('.get-new-tweets').toggleClass('hidden', 2000, 'easeOutSine');            
+          }
         }
 
         //Take a tweet and return a formatted string
@@ -88,7 +93,7 @@
         $('.username').text('@'+name);
 
         //Display the list of users I follow
-        $('.users-list').append('<li class="highlight"><a href="#">All users</a></li>');
+        $('.users-list').append('<li><a href="#" class="selected">All users</a></li>');
         for (var i = 0; i < users.length; i++) {
           $('.users-list').append('<li><a href="#">@' + users[i] + '</a></li>');
         }
@@ -99,28 +104,28 @@
         //PAGE EVENTS
         //Refresh the new tweets counter every 2 sec
         setInterval(function() {
-          refreshCounter(dataTweets, tweetLastIndex);
+          refreshCounter(dataTweets, tweetLastIndex);          
         }, 2000);
 
-        //Refresh the list of tweets if the button is clicked
-        $('.tweets').on('click', 'button', function() {
+        //Refresh the list of tweets if the "get new tweets" link is clicked
+        $('.tweets').on('click', 'a', function() {
           refreshTweets(dataTweets);
         });
 
         //Fiter the list of tweets if a user is selected
-        $('.users-list').on('click', 'li', function(event) {
+        $('.users-list').on('click', 'a', function(event) {
           event.preventDefault();
           //Highlight the selected user/unhighlight the other users
-          $(this).closest('.users-list').find('li').removeClass('highlight');
-          $(this).addClass('highlight');
+          $(this).closest('.users-list').find('a').removeClass('selected');
+          $(this).addClass('selected');
 
-          var $user = $(this).find('a').text();
+          var $user = $(this).text();
 
           //If a specific user
           if ($user.charAt(0) === '@') {
             //Update the titel
             $('.selected-user').text($user + '\'s tweets');
-            //Remove the '@' we don't use it in
+            //Remove the '@' we don't use
             $user = $user.slice(1);
           } else {
             //Update the titel
