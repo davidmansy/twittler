@@ -80,7 +80,7 @@ ul {
 
 /* DESIGN LIST OF USERS */
 /* User default design*/
-.users-list a {
+a.user {
 	display: block;
 	border-top: 1px solid #e8e8e8;
 	padding: 8px 12px 8px 12px;
@@ -90,13 +90,13 @@ ul {
 }
 
 /* User design when you mouse over it */
-.users-list a:hover {
+a.user:hover {
 	background-color: #fff;
 	color: #333;
 }
 
 /* User design when selected */
-.users-list a.selected {
+a.user.selected {
 	background-color: #fff;
 	color: #333;
 	font-weight: bold;
@@ -129,4 +129,14 @@ ul {
 	border-top: 1px solid #e8e8e8;
 	padding: 8px 12px 8px 12px;
 	color: #333;
+}
+
+.user {
+	font-weight: bold;
+}
+
+.time {
+	display: block;
+	float: right;
+	width: 20px;
 }

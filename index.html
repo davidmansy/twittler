@@ -47,7 +47,7 @@
 
         //Take a tweet and return a formatted string
         var formatTweet = function(tweet) {
-          return '@' + tweet.user + ': ' + tweet.message + ', created at: ' + tweet.created_at
+          return '<div><span class="user">@' + tweet.user + '</span><span class="time">2h</span></div><p>' + tweet.message + '</p>'/*<p>' + tweet.created_at + '</p>'*/
         }
 
         //Adjust the number of li tags to the number of tweets
@@ -80,7 +80,7 @@
 
           while(index >= 0){
             var tweet = tweets[index];
-            $tweet.text(formatTweet(tweet));
+            $tweet.html(formatTweet(tweet));
             $tweet = $tweet.next();
             index -= 1;    
           }
@@ -93,9 +93,9 @@
         $('.username').text('@'+name);
 
         //Display the list of users I follow
-        $('.users-list').append('<li><a href="#" class="selected">All users</a></li>');
+        $('.users-list').append('<li><a href="#" class="user selected">All users</a></li>');
         for (var i = 0; i < users.length; i++) {
-          $('.users-list').append('<li><a href="#">@' + users[i] + '</a></li>');
+          $('.users-list').append('<li><a href="#" class="user">@' + users[i] + '</a></li>');
         }
 
         //Build and fill the initial list of tweets
@@ -121,7 +121,7 @@
 
           var $user = $(this).text();
 
-          //If a specific user
+          //Update the titel of the list of tweets
           if ($user.charAt(0) === '@') {
             //Update the titel
             $('.selected-user').text($user + '\'s tweets');
