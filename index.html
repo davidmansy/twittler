@@ -2,6 +2,7 @@
 <html>
   <head>
     <script src="jquery.js"></script>
+    <script src="jquery.timeago.js"></script>
     <script src="data_generator.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
 
@@ -28,6 +29,8 @@
     <script>
 
       $(document).ready(function(){
+
+        jQuery("abbr.timeago").timeago();
         
         var tweetLastIndex = 0;  //Index of the last tweet displayed
         var dataTweets = streams.home;  //Array of tweets being selected (all tweets or one user's tweets). Initialize as all tweets
@@ -47,7 +50,7 @@
 
         //Take a tweet and return a formatted string
         var formatTweet = function(tweet) {
-          return '<div><span class="user">@' + tweet.user + '</span><span class="time">2h</span></div><p>' + tweet.message + '</p>'/*<p>' + tweet.created_at + '</p>'*/
+          return '<div><span class="user">@' + tweet.user + '</span><span class="time">' + jQuery.timeago(tweet.created_at) +'</span></div><p>' + tweet.message + '</p>'
         }
 
         //Adjust the number of li tags to the number of tweets

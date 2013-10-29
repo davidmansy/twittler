@@ -138,5 +138,7 @@ a.user.selected {
 .time {
 	display: block;
 	float: right;
-	width: 20px;
+	width: 150px;
+	font-size: 12px;
+	color: #999;
 }
