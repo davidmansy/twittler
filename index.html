@@ -12,8 +12,8 @@
       <div class="left-part">
         <div class="main-user">
           <h2 class="username"></h2>
-          <!-- Add here a field to post new tweets -->
-          <input type="text" name="new-tweet" maxlength="140" />
+          <textarea class="new-tweet" maxlength="140">Compose new Tweet...</textarea>
+          <button class="new-tweet-button">Tweet</button>
         </div>
         <div class="following">
           <h2>Following</h2>
@@ -30,14 +30,13 @@
 
       $(document).ready(function(){
 
-        jQuery("abbr.timeago").timeago();
-        
+        jQuery("abbr.timeago").timeago();  //timeago initialization
         var tweetLastIndex = 0;  //Index of the last tweet displayed
         var dataTweets = streams.home;  //Array of tweets being selected (all tweets or one user's tweets). Initialize as all tweets
-        var numDisplayedTweets = 40; //Default number of tweets displayed by the app
+        var numDisplayedTweets = 60; //Default number of tweets displayed by the app
         var $tweets = $('.tweets-list');  //Access to the list of tweets placeholder
 
-        //Function refreshing the counter i.e. the number of new tweets not displayed
+        //Utility function to refresh the counter i.e. the number of new tweets not displayed
         var refreshCounter = function(tweets, tweetLastIndex) {
           var oldCounter = +$('.counter').text();
           var counterNum = tweets.length - 1 - tweetLastIndex;
@@ -48,12 +47,12 @@
           }
         }
 
-        //Take a tweet and return a formatted string
+        //Utility function to format a tweet
         var formatTweet = function(tweet) {
           return '<div><span class="user">@' + tweet.user + '</span><span class="time">' + jQuery.timeago(tweet.created_at) +'</span></div><p>' + tweet.message + '</p>'
         }
 
-        //Adjust the number of li tags to the number of tweets
+        //Utility function to adjust the number of li tags to the number of tweets
         var adjustDisplayedList = function(dataLength, dispLength) {
           console.log('Nb of tweets: ' + dataLength + ', Nb of li: ' + dispLength);
           if (dataLength < dispLength) {
@@ -72,7 +71,7 @@
           }
         }
 
-        //Function refreshing the list of tweets based on the received tweets
+        //Utility function to refresh the list of tweets based on the received tweets
         var refreshTweets = function(tweets) {
 
           adjustDisplayedList(tweets.length, $tweets.find('li').length);
@@ -91,9 +90,10 @@
         }
 
         //INITIALIZATION
-        //Display username
+        //Display username and store it in the visitor global variable to enable tweet composition
         var name = prompt("What's your name?");
         $('.username').text('@'+name);
+        window.visitor = name;
 
         //Display the list of users I follow
         $('.users-list').append('<li><a href="#" class="user selected">All users</a></li>');
@@ -101,7 +101,7 @@
           $('.users-list').append('<li><a href="#" class="user">@' + users[i] + '</a></li>');
         }
 
-        //Build and fill the initial list of tweets
+        //Create the initial list of tweets
         refreshTweets(dataTweets);          
 
         //PAGE EVENTS
@@ -110,7 +110,7 @@
           refreshCounter(dataTweets, tweetLastIndex);          
         }, 2000);
 
-        //Refresh the list of tweets if the "get new tweets" link is clicked
+        //Refresh the list of tweets if the counter (number of tweets not displayed) is clicked
         $('.tweets').on('click', 'a', function() {
           refreshTweets(dataTweets);
         });
@@ -143,6 +143,34 @@
           }
           refreshTweets(dataTweets);
         });
+
+        //Update the compose tweet field/button design based on the user focus/focus out
+        $('.new-tweet').on('focus', function() {
+          if($(this).val() === 'Compose new Tweet...') {
+            $(this).val('');
+            $(this).addClass('enabled');
+          }
+        }).on('focusout', function() {
+          if($(this).val().length === 0) {
+            $(this).val('Compose new Tweet...');
+            $(this).removeClass('enabled');
+          }
+        }).on('keyup', function() {
+          if($(this).val().length === 0) {
+            $('.new-tweet-button').removeClass('enabled');
+          } else if($(this).val.length === 1) {
+            $('.new-tweet-button').addClass('enabled');
+          }
+        });
+
+        //Send the composed tweet and bring back the field/button to disabled
+        $('.main-user').on('click', 'button.enabled', function() {
+          console.log('button clicked');
+          writeTweet($('.new-tweet').val());
+          $('.new-tweet').val('Compose new Tweet...');
+          $('.new-tweet').removeClass('enabled');
+          $(this).removeClass('enabled');
+        })
 
 
       });

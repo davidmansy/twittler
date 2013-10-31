@@ -25,22 +25,17 @@ p {
 	margin: 0px;
 }
 
-input {
-	margin: 0px 10px 8px 10px;
-
-}
-
 ul {
 	list-style-type: none;
 	margin: 0px;
 	padding: 0px;	
 }
 
-.main-user, .following, .tweets {
+.main-user, .following, .tweets,  {
 	border: 1px solid rgba(0,0,0,.1);
-	border-radius: 5px;
-	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 
 	overflow: hidden;
 }
@@ -63,6 +58,8 @@ ul {
 .main-user {
 	margin-bottom: 10px;	
 	background-color: #f9f9f9;
+	overflow: auto;
+	width: 100%;
 }
 
 .following {
@@ -77,8 +74,52 @@ ul {
 	background-color: #fff;
 }
 
+/* DESIGN MAIN USER */
+.new-tweet, .new-tweet-button {
+	border: 1px solid rgba(0,0,0,.1);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	font-size: 13px;	
+}
 
-/* DESIGN LIST OF USERS */
+/* Tweet message field */
+.new-tweet {
+	width: 178px;
+	height: 13px;
+	font-size: 12px;
+	overflow-y: auto;
+	word-wrap: break-word;
+	margin: 0px 10px 8px 10px;
+	color: #aaa;
+	padding: 10px;
+}
+
+.new-tweet.enabled {
+	color: #333;	
+	height: 80px;
+}
+
+/* Tweet button */
+.new-tweet-button {
+	float: right;
+	width: 60px;
+	line-height: 18px;
+	color: #999;
+	text-shadow: 0 1px 1px rgba(255,255,255,.75);
+	background-color: #ddd;
+	margin: 0px 10px 10px 0px;
+	cursor: default;
+}
+
+.new-tweet-button.enabled {
+	background-color: #019ad2;
+	cursor: pointer;
+	color: #fff;
+}
+
+
+/* DESIGN LIST OF USERS (FOLLOWING) */
 /* User default design*/
 a.user {
 	display: block;
@@ -138,7 +179,7 @@ a.user.selected {
 .time {
 	display: block;
 	float: right;
-	width: 150px;
+	width: 120px;
 	font-size: 12px;
 	color: #999;
 }

@@ -16,7 +16,12 @@ window.users = Object.keys(streams.users);
 // utility function for adding tweets to our data structures
 var addTweet = function(newTweet){
   var username = newTweet.user;
-  streams.users[username].push(newTweet);
+  //Here you call 'streams.users[username]' which is undefined if I use visitor
+  //To solve this I could put the visitor in the list of users (stream.users) but then he'd be part of the automatic generation of tweets.
+  //Which is not what we want as the visitor's tweet should only come from the app user. So the only solution I found is to add this test.
+  if(streams.users[username] != null) {
+    streams.users[username].push(newTweet);
+  }
   streams.home.push(newTweet);
 };
 
@@ -65,5 +70,7 @@ var writeTweet = function(message){
   var tweet = {};
   tweet.user = visitor;
   tweet.message = message;
+  //Had to add the date in order to have the same structure and timeago to work
+  tweet.created_at = new Date();
   addTweet(tweet);
 };
